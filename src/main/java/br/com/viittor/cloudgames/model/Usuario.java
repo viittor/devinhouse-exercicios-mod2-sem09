@@ -1,5 +1,6 @@
 package br.com.viittor.cloudgames.model;
 
+
 import javax.persistence.*;
 
 @Entity
