@@ -1,19 +1,21 @@
 package br.com.viittor.cloudgames.service;
 
-import br.com.viittor.cloudgames.model.Plataforma;
-import br.com.viittor.cloudgames.repository.PlataformaRepository;
+import br.com.viittor.cloudgames.model.Genero;
+import br.com.viittor.cloudgames.model.Jogo;
+import br.com.viittor.cloudgames.repository.JogoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Scanner;
 
 @Service
-public class PlataformaService {
-    private boolean system = true;
-    private PlataformaRepository plataformaRepository;
+public class JogoService {
 
-    public PlataformaService(PlataformaRepository plataformaRepository) {
-        this.plataformaRepository = plataformaRepository;
+    private final JogoRepository jogoRepository;
+    private boolean system = true;
+
+    public JogoService(JogoRepository jogoRepository) {
+        this.jogoRepository = jogoRepository;
     }
 
     public void iniciar(Scanner scanner) {
@@ -22,7 +24,7 @@ public class PlataformaService {
                 + "1 - Salvar\n"
                 + "2 - Atualizar\n"
                 + "3 - Visualizar\n"
-                + "4 - Excluir\n");
+                + "4 - Excluir");
 
         int escolha = scanner.nextInt();
 
@@ -51,43 +53,59 @@ public class PlataformaService {
         System.out.println("Informe o nome");
         String nome = scanner.next();
 
-        Plataforma plataforma = new Plataforma();
-        plataforma.setNome(nome);
+        System.out.println("Informe a Data de Lançamento");
+        String dataLancamento = scanner.next();
 
-        plataformaRepository.save(plataforma);
+        System.out.println("Informe a capa");
+        String capa = scanner.next();
+
+        System.out.println("Informe o genero");
+        String genero = scanner.next();
+
+//        System.out.println("Informe as plataformas");
+//        String plataforma = scanner.next();
+
+        Jogo jogo = new Jogo();
+        jogo.setNome(nome);
+        jogo.setDataLancamento(dataLancamento);
+        jogo.setCapa(capa);
+        jogo.setGenero(Genero.valueOf(genero));
+        //jogo.setPlataformas(plataforma);
+        jogoRepository.save(jogo);
+
     }
 
     public void atualizar(Scanner scanner) {
         //Pega o id
         System.out.println("Digite o ID que deseja atualizar:");
         //Lê a informção passada e joga em um Optional.
-        Optional<Plataforma> plataformaOptional = plataformaRepository.findById(scanner.nextLong());
+        Optional<Jogo> jogoOptional = jogoRepository.findById(scanner.nextLong());
         //Valida se o campo não está vazio
-        if(plataformaOptional.isEmpty()){
+        if (jogoOptional.isEmpty()) {
             System.out.println("O id informado é inválido");
             return;
         }
         System.out.println("Digite o nome que deseja alterar:");
         String descricao = scanner.nextLine();
         //Procura onde realizar a atualização
-        Plataforma plataforma = plataformaOptional.get();
+        Jogo jogo = jogoOptional.get();
         //Altera a descrição
-        plataforma.setNome(descricao);
+        jogo.setNome(descricao);
         //Salva a Atualização
-        plataformaRepository.save(plataforma);
-        System.out.println("Plataforma Atualizada!");
+        jogoRepository.save(jogo);
+        System.out.println("Jogo Atualizado!");
     }
 
     public void visualizar(Scanner scanner) {
-        Iterable<Plataforma> plataformas = plataformaRepository.findAll();
-        plataformas.forEach(System.out::println);
+        Iterable<Jogo> jogos = jogoRepository.findAll();
+        jogos.forEach(System.out::println);
 
     }
 
     public void excluir(Scanner scanner) {
-        System.out.println("Digite o ID da plataforma que deseja deletar:");
+        System.out.println("Digite o ID do jogo que deseja deletar:");
         Long id = scanner.nextLong();
-        plataformaRepository.deleteById(id);
+        jogoRepository.deleteById(id);
     }
-}
 
+}

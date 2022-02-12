@@ -1,7 +1,6 @@
 package br.com.viittor.cloudgames.model;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
@@ -15,7 +14,7 @@ public class Jogo {
 
     private String nome;
 
-    private Date dataLancamento;
+    private String dataLancamento;
 
     private String capa;
 
@@ -41,11 +40,11 @@ public class Jogo {
         this.nome = nome;
     }
 
-    public Date getDataLancamento() {
+    public String getDataLancamento() {
         return dataLancamento;
     }
 
-    public void setDataLancamento(Date dataLancamento) {
+    public void setDataLancamento(String dataLancamento) {
         this.dataLancamento = dataLancamento;
     }
 
