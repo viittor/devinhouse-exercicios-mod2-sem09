@@ -3,7 +3,7 @@ package br.com.viittor.cloudgames.model;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "usuario")
 public class Usuario {
 
     @Id
